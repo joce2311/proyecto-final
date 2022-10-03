@@ -31,6 +31,12 @@ const Layout = () => {
 						<Route exact path="/single/:theid">
 							<Single />
 						</Route>
+						<Route exact path="/login">
+
+						</Route>
+						<Route exact path="/registro"></Route>
+						<Route exact path="/recuperar contraseña"></Route>
+						<Route exact path="/home"></Route>
 						<Route>
 							<h1>Not found!</h1>
 						</Route>
