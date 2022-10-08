@@ -1,6 +1,10 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+
+			productos: [],
+			marcas: [],
+
 			demo: [
 				{
 					title: "FIRST",
@@ -113,11 +117,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
-					"vendedor": datos_producto.vendedor ,
-					"marca": datos_producto.marca ,
-					"nombre_producto": datos_producto.nombre_producto ,
-					"descripcion": datos_producto.descripcion ,
-					"precio": datos_producto.precio ,
+					"vendedor": datos_producto.vendedor,
+					"marca": datos_producto.marca,
+					"nombre_producto": datos_producto.nombre_producto,
+					"descripcion": datos_producto.descripcion,
+					"precio": datos_producto.precio,
 					"url_foto": datos_producto.url_foto
 				});
 
@@ -135,25 +139,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			recuperar_clave_funcion: () => { },
 
-			obtener_productos_funcion: ()=>{},
-			obtener_marcas_funcion: ()=>{},
-			borrar_producto_funcion: (id_producto)=>{},
+			getProductos: () => {
 
 
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+				var requestOptions = {
+					method: 'GET',
+					redirect: 'follow'
+				};
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+				fetch("https://3000-sneelyg-proyectofinalba-eqkp9siy5pt.ws-us70.gitpod.io/productos/", requestOptions)
+					.then(response => response.text())
+					.then(result => setStore({ productos: result }))
+					.catch(error => console.log('error', error));
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
+
+			getMarcas: () => {
+
+				var requestOptions = {
+					method: 'GET',
+					redirect: 'follow'
+				};
+
+				fetch("https://3000-sneelyg-proyectofinalba-eqkp9siy5pt.ws-us70.gitpod.io/marcas", requestOptions)
+					.then(response => response.text())
+					.then(result => setStore({ marcas: result }))
+					.catch(error => console.log('error', error));
+			},
+
+
+			borrar_producto_funcion: (id_producto) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var requestOptions = {
+					method: 'DELETE',
+					headers: myHeaders,
+					redirect: 'follow'
+				};
+
+				fetch("https://3000-sneelyg-proyectofinalba-eqkp9siy5pt.ws-us70.gitpod.io/productos/"+id_producto, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log('error', error));
 			}
+
+
 		}
 	};
 };
